@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "kseramik-iot",
+  "private_key_id": "f5ff8c028c1cb51d0ec1cc160700c8238846e064",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDOp71l3T5Pu4w+\n8Pl1jjIYuSNo1kL3CKZ69u74FXCeScAVJxSLgIbgfLUcD+kLAW/nPwCgGUiiTphF\nN2QpClWAFcdfhy7mOTvS2TMgxx2IXtN/AE2r+TvwH2Vx2XS1aRz+M5MdpgaRNzrc\nul6YXJjG7Zsq7gYCu0Jb3ZStAl1tbWFKNJxwj/V/EvA9mrWcb2q7GiWSjifIYu90\nfySkdLfr3R5NehpmEqgp2zD30dQuNGT3PBHsN3i0Nv9QxBxwOor2It3wa7I3g2oO\ngloBUhCcduXMkLWxIGpzRWkvt09Ldiw6W36lSln85ZV+yk0MS4S4G5fV1aAY+nrX\n1aHdDTb5AgMBAAECggEABCKWXz1O98K3ltNU1Im6viSnPRvrdVy8kxGRnNB2A07T\nu4CfkD6LRF7uc1AssDoQQorv0ORMoCXNNXZbKFiS9ygIaCSQ902eITUUKTPexwmp\ntvz7MOWg8cg5DA8HPzGKIVqIFzPpJfr6UCwhBDC3JGThAdoHMAMN+/9aMB+P3caF\nMqylhVD9vvT3QcpcVhzsdZZ/tDsLWjfAo6OOfYXFrxolZPIg8vcTgc3MdWMuV7gA\nLL8fJBZENqSU/jMQablsaf8raHOM2WliI9fDaXY7sQa2Wp8NxPGF30LWdII46RhI\npLaKwn/6Ff0rgMOwaB2Ynp6olu6GMTHHOI+SyobwEQKBgQDrOg5zjunH2AukGERJ\nPRODvzH6My0SeukPNN4gL5LkOoq1YuF+cnsfoGEIRLpMfuqqgKVA5Q8CyvNvJtDd\npNxAFdtLlUlnLsvtalAIcbd74xBWNuSqBArIj2ZBJQuyjo4UDf+h8Zmzrm3ajBTw\nXkLnxl9gUSX+dnDEkCYOQ3j+sQKBgQDg577aVszX11oG3iJl73+1yZ9xlKxYxX0G\n/tpDbB6SWDcOV9a7glzBMnlA8W+TasxS1DwDxHxeZ82aNhdWjehUzH9r+P9v9iZ7\nG9VYty4C8hSeTpt/gydiV0zl8U58cO4ZfdlqP7wmi4Ug4zM+BTiQzH4SwGAOnqnw\nY0zTopyeyQKBgHUghnuiCOSavkkqUC5LvEDY3lDgVKwkCZKp14UdSz5brB/fqbql\n1IsN9+L/HejjNYRK5H5o0E2qswaAxHXpFkbO21BKeK9pTN/eFRXvUdbdXJAha0EB\nHEF7rgX4JVf2xeZUhhqkS819qHOvVunNdfElBO7X2VxYq5Qk1t45WLExAoGAKOf9\nvpirCVcR+M3OU9wLznStm2r/LeY9p1gTOtAff16sJN+1HsXHORyFEVrYgGecYjRX\n9hd2x3T54GKWPBfzefj39BuF2kdbGGknlMs8gyyks2Z4weiI8UoPooMRU3D23YwW\nT0zoW9pkjGbGmzE36J5JEAANeJtDLYXiI1wgQIECgYAH2xZG1lMaprgeeCXz6w+9\nv4Z3MG0qY3Jm6t25h/kgEMdbGfdq+P7NudWWpmlWoHmQsMr79p2JzgzZl4gjHGxg\nBEW/xCDAl8LD6ldrXpuJ5e2RlXpACg4WqpeF2HUEBhEc4ioUu+xfCrAbVOleWZw8\njRMb5p2ILIRotSZHox2EMA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "pusula-kale@kseramik-iot.iam.gserviceaccount.com",
+  "client_id": "110285312297787890175",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pusula-kale%40kseramik-iot.iam.gserviceaccount.com"
+}
