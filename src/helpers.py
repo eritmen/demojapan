@@ -20,7 +20,7 @@ def build_banner(config):
                 children=[
                     html.A(
                         html.Button(children="ENTERPRISE DEMO"),
-                        href="https://plotly.com/get-demo/",
+                        href="https://kaizenintelligence.com/contact/",
                     ),
                     html.Button(
                         id="learn-more-button", children="LEARN MORE", n_clicks=0
