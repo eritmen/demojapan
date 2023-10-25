@@ -26,7 +26,7 @@ suffix_ooc_g = "_OOC_graph"
 suffix_indicator = "_indicator"
 
 # Configs, hard coded for now.  TODO: these will be loaded from a single file
-banner_cfg = OmegaConf.create({"title": "Dashboard", "subtitle": "Kale Seramik Process Data"})
+banner_cfg = OmegaConf.create({"title": "Dashboard", "subtitle": "ACME Process Data"})
 tabs_cfg = OmegaConf.create([ # for illlustration purposes only, normally config would have names of tables etc. needed to create the graphs
     # {"type": "graph", "title": "Oven parameters", "num_graphs": 5},
     # {"type": "energy", "title": "Energy"},
