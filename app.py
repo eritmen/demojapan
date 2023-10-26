@@ -85,6 +85,7 @@ with open('demo_schema.json') as f:
 # =============================================================================
 # Azure Connection for spc_data.csv file 
 # =============================================================================
+spc_blob_name = "spc_data.csv"
 blob_client_spc = container_client.get_blob_client(spc_blob_name)
 blob_data_spc = blob_client_spc.download_blob()
 csv_data_spc = blob_data_spc.readall()
