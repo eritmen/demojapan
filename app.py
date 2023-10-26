@@ -64,21 +64,21 @@ bq = BigQuery("kseramik-iot-f5ff8c028c1c.json")
 #bq = BigQuery("demo_credential.json")
 # =============================================================================
 
-#with open('data/kale_seramik_table_schemas.json') as f:
-#    table_schemas = json.load(f)
+with open('data/kale_seramik_table_schemas.json') as f:
+    table_schemas = json.load(f)
 
 # =============================================================================
 # Azure Connection for schema file 
 # =============================================================================
-schema_blob_name = "kale_seramik_table_schemas.json"
-blob_client_schema = container_client.get_blob_client(schema_blob_name)
-blob_data_schema = blob_client_schema.download_blob()
-schema_file = blob_data_schema.readall().decode('utf-8')
-with open("demo_schema.json", 'w') as lcl_file:
-    lcl_file.write(schema_file)
+#schema_blob_name = "kale_seramik_table_schemas.json"
+#blob_client_schema = container_client.get_blob_client(schema_blob_name)
+#blob_data_schema = blob_client_schema.download_blob()
+#schema_file = blob_data_schema.readall().decode('utf-8')
+#with open("demo_schema.json", 'w') as lcl_file:
+#   lcl_file.write(schema_file)
 
-with open('demo_schema.json') as f:
-    table_schemas = json.load(f)
+#with open('demo_schema.json') as f:
+#    table_schemas = json.load(f)
 # =============================================================================
 
 #df = pd.read_csv(os.path.join(APP_PATH, os.path.join("data", "spc_data.csv")))
