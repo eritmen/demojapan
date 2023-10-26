@@ -49,19 +49,19 @@ tabs_cfg = OmegaConf.create([ # for illlustration purposes only, normally config
 
 
 # Load data
-#bq = BigQuery("kseramik-iot-f5ff8c028c1c.json")
+bq = BigQuery("kseramik-iot-f5ff8c028c1c.json")
 
 # =============================================================================
 # Azure Connection for credential file 
 # =============================================================================
-credential_blob_name = "kseramik-iot-f5ff8c028c1c.json"
-blob_client_credential = container_client.get_blob_client(credential_blob_name)
-blob_data_credential = blob_client_credential.download_blob()
-credential_file = blob_data_credential.readall().decode('utf-8')
-with open("demo_credential.json", 'w') as local_file: 
-    local_file.write(credential_file)
+#credential_blob_name = "kseramik-iot-f5ff8c028c1c.json"
+#blob_client_credential = container_client.get_blob_client(credential_blob_name)
+#blob_data_credential = blob_client_credential.download_blob()
+#credential_file = blob_data_credential.readall().decode('utf-8')
+#with open("demo_credential.json", 'w') as local_file: 
+#   local_file.write(credential_file)
 
-bq = BigQuery("demo_credential.json")
+#bq = BigQuery("demo_credential.json")
 # =============================================================================
 
 #with open('data/kale_seramik_table_schemas.json') as f:
