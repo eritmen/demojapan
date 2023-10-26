@@ -8,3 +8,4 @@ numpy>=1.16.2
 pandas>=0.24.2
 omegaconf>=2.2
 google-cloud-bigquery==3.11.4
+azure-storage-blob==12.16.0
