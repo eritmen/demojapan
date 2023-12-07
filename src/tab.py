@@ -30,7 +30,7 @@ container_client = blob_service_client.get_container_client(container_name)
 
 # =============================================================================
 
-line_color = "#f4d44d"
+line_color = "#1975FA"
 pio.templates.default = "plotly_dark"
 
 
@@ -455,14 +455,14 @@ class EnergyTab(GraphTab):
 
     def fill_gauge(self, text, percentage):
         return daq.Gauge(
-            size=160,
+            size=240,
             max=100,
             min=0,
             #label = text,
             units="%",
             color='red', #{"gradient":True,"ranges":{"blue":[0,10],"red":[10,100]}},
             value = percentage,
-            showCurrentValue=False,
+            showCurrentValue=True,
             style = {
                     "align": "center",
                     "display": "flex",
@@ -471,11 +471,11 @@ class EnergyTab(GraphTab):
                     'font':'12'
                 },
         )
-
+        
     def create_scatter(self):
         df = self.df
         fig = px.scatter(df, x="Predicted_class", y="True_class", color="Type",
-                 size='Size', hover_data= ['Messages'], color_discrete_sequence=[line_color, 'red'])
+                 size='Size', hover_data= ['Messages'], color_discrete_sequence=[line_color, '#C1121F'], height = 750)
         fig.update_layout(legend=dict(
             yanchor="top",
             y=0.99,
@@ -498,7 +498,9 @@ class EnergyTab(GraphTab):
                 x=np.arange(min_value, max_value, 0.1),
                 y=np.arange(min_value, max_value, 0.1),
                 name="Ideal Process",
+                line_color = '#FDF0D5',
                 mode='lines',
+                line = dict(shape = 'linear', dash = 'dash')
             )
         )
         fig.update_layout(
@@ -517,7 +519,7 @@ class EnergyTab(GraphTab):
         end_date = pd.Timestamp(end_date)
         df_line = self.df[self.df['timestamp'].between(start_date.tz_localize('utc'), end_date.tz_localize('utc'))]
         fig_line = px.line(df_line, x='timestamp', y='True_class',
-              title="Time-series Anomaly Chart")
+              title="Time-series Anomaly Chart",height = 650)
         fig_line.update_traces(line_color=line_color, line_width=3)
         
         df_line_high = df_line[df_line['Type'] == 'Anomaly']
@@ -554,25 +556,43 @@ class EnergyTab(GraphTab):
         return (
             html.Div(
                 id="energy-container", children=[
+                    html.Div(children=[
+                        html.Div(
+                            children=[dcc.Graph(id="energy-scatter-graph", figure=self.create_scatter())],
+                            className = 'twelve columns',
+                            style={'display': 'inline-block'}
+                        ),
                     html.Div([  
                         html.Div(className='row', children=[
-                            html.Div(children=[
                                 html.Div(
-                                    children=[dcc.Graph(id="energy-scatter-graph", figure=self.create_scatter())],
-                                    className = 'ten columns',
-                                    style={'display': 'inline-block'}
+                                    children=[
+                                        html.H4("Anomaly Percentage"),
+                                        html.Div(id="anomaly-ratio-gauge", children=[fig_anomaly_ratio],
+                                                 style={'display': 'inline-block', 'justify':"center", 'align':"center"}),
+                                        #html.Small("Saveable Energy"),
+                                        #html.Div(id="consumption-ratio-gauge",children=fig_anomaly_con),
+                                        #html.Div(id='text-energy-saving', children=energy_text),
+                                    ],                                 
+                                    className='four columns',
+                                    style={'display': 'inline-block', 'justify':"center", 'align':"center"},
                                 ),
                                 html.Div(
                                     children=[
-                                        html.Small("Anomaly Percentage"),
-                                        html.Div(id="anomaly-ratio-gauge", children=fig_anomaly_ratio),
-                                        html.Small("Saveable Energy"),
-                                        html.Div(id="consumption-ratio-gauge",children=fig_anomaly_con),
-                                        html.Div(id='text-energy-saving', children=energy_text),
-                                    ], 
-                                    className='two columns',
-                                    style={'display': 'inline-block', 'textAlign': 'center'},
+                                        #html.Small("Anomaly Percentage"),
+                                        #html.Div(id="anomaly-ratio-gauge", children=fig_anomaly_ratio),
+                                        html.H4("Saveable Energy"),
+                                        html.Div(id="consumption-ratio-gauge",children=[fig_anomaly_con],
+                                                 style={'display': 'inline-block', 'justify':"center", 'align':"center"}),
+                                    ],                                 
+                                    className='four columns',
+                                    style={'display': 'inline-block', 'justify':"center", 'align':"center"},
                                 ),
+                                html.Div(id='text-energy-saving', children=
+                                         [html.Br(),html.Br(),html.Br(),
+                                          html.Br(),html.Br(),
+                                          html.Br(),energy_text],
+                                         className='four columns',style={"color": "red"}),
+
                             ]),
                         ])],
                         style={'textAlign': 'center'}
