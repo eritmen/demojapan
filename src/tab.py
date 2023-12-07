@@ -8,27 +8,13 @@ import plotly.io as pio
 from omegaconf import OmegaConf
 import pandas as pd
 import numpy as np
-from datetime import date
 import json
 import re
-
-from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
-import io
 
 from src.helpers import build_quick_stats_panel, build_top_panel, build_chart_panel, generate_metric_row
 from src.dataset import possible_parameter_df
 from src.globals import TABS
 
-# =============================================================================
-# Azure Connection and Container
-# =============================================================================
-connection_string = "DefaultEndpointsProtocol=https;AccountName=pusulafiles;AccountKey=FDNvMbQvEh8jn4VyT5gV+ctVz0VlsSaS9GV2+o+hIVtm8HYAUaRLj1sUCJJJqBbtmHTPJMwcUceA+AStc3akfA==;EndpointSuffix=core.windows.net"
-blob_service_client = BlobServiceClient.from_connection_string(connection_string)
-
-container_name = "demofiles"
-container_client = blob_service_client.get_container_client(container_name)
-
-# =============================================================================
 
 line_color = "#1975FA"
 pio.templates.default = "plotly_dark"
@@ -121,16 +107,9 @@ class GraphTab(Tab):
 
     def init_data(self, data):
         # TODO: hard-coding this for now to prevent live queries
-        #df = pd.read_pickle("data/kale_cached.pkl")
-        # =============================================================================
-        # Azure Connection for kale_cached.pkl
-        # =============================================================================
-        data_blob_name = "kale_cached.pkl"
-        blob_client_data = container_client.get_blob_client(data_blob_name)
-        blob_data_data = blob_client_data.download_blob()
-        pkl_data = blob_data_data.readall()
-        df = pd.read_pickle(io.BytesIO(pkl_data))
-        # =============================================================================
+        df = pd.read_pickle("data/kale_cached.pkl")
+        df['timestamp'] = df.timestamp.astype('object').astype('M8[ns]')
+        df['timestamp'] = df['timestamp']  + np.timedelta64(51, 'Y') + np.timedelta64(7, 'M')
         self.df = df.sort_values(self.config.timestamp_col)
         # self.column_list = ["factoryId", "lineId", "machineId", "parameter"]
         self.params = possible_parameter_df(df, self.config.param_cols)
@@ -144,8 +123,6 @@ class GraphTab(Tab):
         id = f"{cls.type()}-tab"
         with open('data/kale_seramik_table_schemas.json') as f:  #TODO: get this from the database rather than file
             table_schema = json.load(f)
-
-        
         tables = list(table_schema.keys())
         form = dbc.Form([
             _field(f"input-{id}-1", "Tab title"),
@@ -160,8 +137,7 @@ class GraphTab(Tab):
     @classmethod
     def settings_callbacks(cls):
         with open('data/kale_seramik_table_schemas.json') as f:  #TODO: get this from the database rather than file
-           table_schema = json.load(f)
-        
+            table_schema = json.load(f)
         def dropdown_callback(table):
             options = [row["name"] for row in table_schema[table]]
             return (options, options, options)
@@ -417,17 +393,7 @@ class EnergyTab(GraphTab):
 
     def init_data(self, data):
         # TODO: hard-coding this for now to prevent live queries
-        #df = pd.read_csv('data/Brulor_efficiency_v3.csv')
-        # =============================================================================
-        # Azure Connection for Brulor_efficiency_v3.csv 
-        # =============================================================================
-        energy_blob_name = "Brulor_efficiency_v3.csv"
-        blob_client_energy = container_client.get_blob_client(energy_blob_name)
-        blob_data_energy = blob_client_energy.download_blob()
-        csv_data_energy = blob_data_energy.readall()
-        df = pd.read_csv(io.BytesIO(csv_data_energy))
-        # =============================================================================
-
+        df = pd.read_csv('data/Brulor_efficiency_v3.csv')
         df['timestamp'] = pd.to_datetime(df['timestamp'])
         df = df.iloc[-1000:,:]
         messages = ['Reduce parameter 4 by %5', 'Check parameter 2', 'Fan is not working properly',
@@ -436,7 +402,7 @@ class EnergyTab(GraphTab):
         size_list = []
         message_list = []
         for i in range(len(df)):
-            if df['True_class'].iloc[i] > 1.25* df['Predicted_class'].iloc[i]:
+            if df['True_class'].iloc[i] > 1.2* df['Predicted_class'].iloc[i]:
                 type_list.append('Anomaly')
                 size_list.append((df['True_class'].iloc[i])/
                                  df['Predicted_class'].iloc[i])
@@ -455,14 +421,14 @@ class EnergyTab(GraphTab):
 
     def fill_gauge(self, text, percentage):
         return daq.Gauge(
-            size=160,
+            size=240,
             max=100,
             min=0,
             #label = text,
             units="%",
             color='red', #{"gradient":True,"ranges":{"blue":[0,10],"red":[10,100]}},
             value = percentage,
-            showCurrentValue=False,
+            showCurrentValue=True,
             style = {
                     "align": "center",
                     "display": "flex",
@@ -552,7 +518,7 @@ class EnergyTab(GraphTab):
     
     def render(self, stopped_interval):
         fig_anomaly_ratio, fig_anomaly_con, amount_saved = self.create_metrics()
-        energy_text = dcc.Markdown(f"{amount_saved}$ can be saved per day.")
+        energy_text = dcc.Markdown(f"### {amount_saved}$ can be saved per day.")
         return (
             html.Div(
                 id="energy-container", children=[
@@ -604,8 +570,6 @@ class EnergyTab(GraphTab):
             ),
             stopped_interval,
         )
-
-
 class AddTab(Tab):
     def __init__(self, config):
         super().__init__(config)
