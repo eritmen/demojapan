@@ -421,7 +421,7 @@ class EnergyTab(GraphTab):
 
     def fill_gauge(self, text, percentage):
         return daq.Gauge(
-            size=240,
+            size=480,
             max=100,
             min=0,
             #label = text,
