@@ -1,7 +1,10 @@
 import os
 import pathlib
 import json
+import io
 
+
+from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
 from dash import Dash, Input, Output, State, html, ctx, dcc, dash_table, callback, callback_context
 import plotly.graph_objs as go
 import dash_daq as daq
@@ -14,6 +17,15 @@ from src.tab import TAB_TYPES, CONTENT_TAB_TYPES, TABS, AddTab, SettingTab, buil
 from src.helpers import build_banner, generate_modal
 from src.dataset import BigQuery
 
+# =============================================================================
+# Azure Connection and Container
+# =============================================================================
+connection_string = "DefaultEndpointsProtocol=https;AccountName=pusulafiles;AccountKey=FDNvMbQvEh8jn4VyT5gV+ctVz0VlsSaS9GV2+o+hIVtm8HYAUaRLj1sUCJJJqBbtmHTPJMwcUceA+AStc3akfA==;EndpointSuffix=core.windows.net"
+blob_service_client = BlobServiceClient.from_connection_string(connection_string)
+
+container_name = "demofiles"
+container_client = blob_service_client.get_container_client(container_name)
+# =============================================================================
 
 # Constants
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
@@ -39,10 +51,46 @@ tabs_cfg = OmegaConf.create([ # for illlustration purposes only, normally config
 # Load data
 bq = BigQuery("kseramik-iot-f5ff8c028c1c.json")
 
+# =============================================================================
+# Azure Connection for credential file 
+# =============================================================================
+#credential_blob_name = "kseramik-iot-f5ff8c028c1c.json"
+#blob_client_credential = container_client.get_blob_client(credential_blob_name)
+#blob_data_credential = blob_client_credential.download_blob()
+#credential_file = blob_data_credential.readall().decode('utf-8')
+#with open("demo_credential.json", 'w') as local_file: 
+#   local_file.write(credential_file)
+
+#bq = BigQuery("demo_credential.json")
+# =============================================================================
+
 with open('data/kale_seramik_table_schemas.json') as f:
     table_schemas = json.load(f)
 
-df = pd.read_csv(os.path.join(APP_PATH, os.path.join("data", "spc_data.csv")))
+# =============================================================================
+# Azure Connection for schema file 
+# =============================================================================
+#schema_blob_name = "kale_seramik_table_schemas.json"
+#blob_client_schema = container_client.get_blob_client(schema_blob_name)
+#blob_data_schema = blob_client_schema.download_blob()
+#schema_file = blob_data_schema.readall().decode('utf-8')
+#with open("demo_schema.json", 'w') as lcl_file:
+#   lcl_file.write(schema_file)
+
+#with open('demo_schema.json') as f:
+#    table_schemas = json.load(f)
+# =============================================================================
+
+#df = pd.read_csv(os.path.join(APP_PATH, os.path.join("data", "spc_data.csv")))
+# =============================================================================
+# Azure Connection for spc_data.csv file 
+# =============================================================================
+spc_blob_name = "spc_data.csv"
+blob_client_spc = container_client.get_blob_client(spc_blob_name)
+blob_data_spc = blob_client_spc.download_blob()
+csv_data_spc = blob_data_spc.readall()
+df = pd.read_csv(io.BytesIO(csv_data_spc))
+# =============================================================================
 params = list(df)
 max_length = len(df)
 
@@ -834,4 +882,4 @@ app.layout = html.Div(
 
 # Running the server
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8050)
+    app.run_server(debug=True)
