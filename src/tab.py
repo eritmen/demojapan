@@ -436,7 +436,7 @@ class EnergyTab(GraphTab):
         size_list = []
         message_list = []
         for i in range(len(df)):
-            if df['True_class'].iloc[i] > 1.25* df['Predicted_class'].iloc[i]:
+            if df['True_class'].iloc[i] > 1.20* df['Predicted_class'].iloc[i]:
                 type_list.append('Anomaly')
                 size_list.append((df['True_class'].iloc[i])/
                                  df['Predicted_class'].iloc[i])
@@ -591,7 +591,7 @@ class EnergyTab(GraphTab):
                                          [html.Br(),html.Br(),html.Br(),
                                           html.Br(),html.Br(),
                                           html.Br(),energy_text],
-                                         className='four columns',style={"color": "red"}),
+                                         className='four columns',style={"color": "red","font-size": "20px"}),
 
                             ]),
                         ])],
