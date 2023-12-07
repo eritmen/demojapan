@@ -1,8 +1,6 @@
 import os
 import pathlib
 import json
-import io
-
 
 from dash import Dash, Input, Output, State, html, ctx, dcc, dash_table, callback, callback_context
 import plotly.graph_objs as go
@@ -41,15 +39,10 @@ tabs_cfg = OmegaConf.create([ # for illlustration purposes only, normally config
 # Load data
 bq = BigQuery("kseramik-iot-f5ff8c028c1c.json")
 
-
-
 with open('data/kale_seramik_table_schemas.json') as f:
     table_schemas = json.load(f)
 
-
-
 df = pd.read_csv(os.path.join(APP_PATH, os.path.join("data", "spc_data.csv")))
-
 params = list(df)
 max_length = len(df)
 
@@ -841,4 +834,4 @@ app.layout = html.Div(
 
 # Running the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8050)
